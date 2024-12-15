@@ -1,0 +1,194 @@
+<div class="bg-light">
+
+    <div class="row">
+        <div class="col-12 text-center">
+            <h4><b>LIVE DATA TRACKING</b></h4>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-7">
+            <div class="card">
+                <div class="card-header text-white text-center bg-success">
+                    <h4>Students List</h4>
+                </div>
+
+                <div class="card-body text-center">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>SNO</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Gender</th>
+                                <th>Education</th>
+                                <th>City</th>
+                                <th>Activity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (student of studentList; track $index) 
+                            {
+                                <tr>
+                                    <td> {{ $index+1 }} </td>
+                                    <td> {{ student.name }} </td>
+                                    <td> {{ student.email }} </td>
+                                    <td> {{ student.gender }} </td>
+                                    <td> {{ student.qualification }} </td>
+                                    <td> {{ student.city }} </td>
+                                    <td>
+                                        <div class="row text-center">
+                                            <div class="col-4"> <button class="btn btn-success" (click)="editForm(student)">Edit</button> </div>
+
+                                            @if (student.isSavedToDatabase) 
+                                            {
+                                                <div class="col-4"> <button class="btn btn-success" (click)="deleteFromList(student)">Delete</button> </div>
+                                            }
+                                            @else 
+                                            {
+                                                <div class="col-4"> <button class="btn btn-success" disabled >Delete</button> </div>
+                                            }
+
+                                            @if(student.isSavedToDatabase)
+                                            {
+                                                <div class="col-4"> Saved </div>
+                                            }
+                                            @else 
+                                            {
+                                                <div class="col-4"> <button class="btn btn-success" (click)="sendToDatabase(student)">Save</button> </div>
+                                            }
+                                            
+                                            
+                                        </div>
+                                    </td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-5">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5>Fill Form to Add</h5>
+                </div>
+
+
+                <div class="card-body">
+
+                    <form [formGroup]="studentForm">
+
+                        <div class="row">
+
+                            <div class="col-6">
+                                <label class="form-label"><b>Enter Full Name</b></label>
+                                <input type="text" class="form-control" formControlName="name" placeholder="Enter Full Name">
+                            </div>
+
+                            <div class="col-6">
+                                <label class="form-label"><b>Email</b></label>
+                                <input type="email" class="form-control" formControlName="email" placeholder="Enter Email">
+                            </div>
+
+                            <div class="col-6">
+                                <label class="form-label"><b>Mobile Number</b></label>
+                                <input type="number" class="form-control" formControlName="contactNumber" placeholder="Enter Mobile">
+                            </div>
+
+                            <div class="col-6 form-check mt-2">
+                                <label class="form-label"><b>Gender</b></label> <br>
+                                <input type="radio" name="gender" formControlName="gender" value="male">
+                                <label class="form-label">Male</label>  &nbsp;
+                                <input type="radio" name="gender" formControlName="gender" value="female">
+                                <label class="form-label">Female</label>  &nbsp;
+                                <input type="radio" name="gender" formControlName="gender" value="others">
+                                <label class="form-label">Others</label>
+                            </div>
+
+                            <div class="col-6 mt-2">
+                                <label class="form-label"><b>D.O.B</b></label>
+                                <input type="date" formControlName="dob" class="form-control" (change)="checkState()">
+                            </div>
+
+                            <div class="col-6">
+                                <label class="form-label"><b>Qualification</b></label>
+                                <select class="form-select" formControlName="qualification" (change)="checkState()">
+                                    <option value="">Select Max Degree</option>
+                                    <option *ngFor="let qlf of qualification" [value]="qlf"> {{ qlf }} </option>
+                                    
+                                </select>
+                            </div>
+
+                            <div class="col-12 mt-2">
+                                <label class="form-label"><b>Skills</b></label> <br>
+                                <span *ngFor="let skill of skills; let i = index">
+                                    <input type="checkbox"
+                                    [value]="skill"
+                                    (change)="onCheckboxChange($event)">{{skill}} &nbsp;
+                                </span>
+                            </div>
+                            <p>Selected Skills: {{ selectedSkills | json }}</p>
+
+                            <div class="col-6">
+                                <label class="form-label"><b>Select State</b></label> <br>
+                                <select class="form-select" formControlName="state" (change)="checkState()">
+                                    <option value="">Select State</option>
+                                    <option *ngFor="let chek of states" [value]="chek">{{ chek }}</option>
+                                </select>
+                            </div>
+
+                            <div class="col-6">
+                                <label class="form-label"><b>City</b></label>
+                                <input type="text" class="form-control" formControlName="city" placeholder="City">
+                            </div>
+
+                            <div class="col-6">
+                                <label class="form-label"><b>Pincode</b></label>
+                                <input type="number" class="form-control" formControlName="pincode" placeholder="PIN Code">
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label"><b>Full Address</b></label>
+                                <textarea class="form-control" formControlName="address" placeholder="Enter Full Address"></textarea>
+                            </div>
+
+                            <div class="col-12 text-center">
+                                <div class="row mt-2">
+                                    <div class="col-5">
+                                        <button type="reset" class="btn btn-warning" (click)="resetForm()">Reset</button>
+                                    </div>
+                                    @if(this.studentObject.studentId == 0)
+                                    {
+                                        <div class="col-5">
+                                            <button type="submit" class="btn btn-success" (click)="onSubmit()">Submit</button>
+                                        </div>
+                                    } @else 
+                                    {
+                                        <div class="col-5">
+                                            <button type="submit" class="btn btn-warning" (click)="onEditSubmit()">Resubmit</button>
+                                        </div>
+                                    }
+
+                                    
+                                    <div class="col-2">
+                                        <button type="button" class="btn btn-danger" (click)="resetLiveWorking()"><small>Clear</small></button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    
+    
+
+</div>
