@@ -1,0 +1,92 @@
+<div class="row p-4">
+
+    <div class="col-2">
+
+    </div>
+
+    <div class="card col-8">
+
+        <div class="card-header mt-1 bg-info text-center text-bold text-white">
+            <h2>FILL FORM TO REGISTER</h2>
+        </div>
+
+        <div class="card-body">
+
+            <form class="form row" [formGroup]="registrationForm" (submit)="onSubmit()">
+
+                <div class="col-12">
+                    <label class="form-label"><b>Full Name : </b></label>
+                    <input class="form-control" type="text" [(ngModel)]="user.name" formControlName="name" placeholder="Enter Full Name">
+                    <div class="text-danger">
+                        @if ( registrationForm.controls['name'].touched ) {
+                            @if ( registrationForm.controls['name'].errors?.['required'] ) {
+                                <span>Required</span>
+                            }
+                            @else if ( registrationForm.controls['name'].errors?.['minlength'] ) { 
+                                <span>Min Lenth reqired</span>
+                            }
+                        }
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <label class="form-label"><b>Email : </b></label>
+                    <input class="form-control" type="email" [(ngModel)]="user.email" formControlName="email" placeholder="Enter Email">
+                    <div class="text-danger">
+                        @if ( registrationForm.controls['email'].touched ) {
+                            @if ( registrationForm.controls['email'].errors?.['required'] ) {
+                                <span>Email is REQUIRED</span>
+                            } @else if ( registrationForm.controls['email'].errors?.['email'] ) {
+                                <span>Enter correct email</span>
+                            }
+                        }
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <label class="form-label"><b>Age : </b></label>
+                    <input class="form-control" type="number" formControlName="age" placeholder="Enter Age">
+                </div>
+
+                <div class="col-6 form-check mt-2">
+                    <label class="form-label"><b>Gender</b></label> <br>
+                    <input type="radio" name="gender" formControlName="gender" value="male">
+                    <label class="form-label">Male</label>  &nbsp;
+                    <input type="radio" name="gender" formControlName="gender" value="female">
+                    <label class="form-label">Female</label>  &nbsp;
+                    <input type="radio" name="gender" formControlName="gender" value="others">
+                    <label class="form-label">Others</label>
+                </div>
+
+                <div class="col-6">
+                    <label class="form-label"><b>Mobile : </b></label>
+                    <input class="form-control" type="number" formControlName="mobile" placeholder="Enter Mobile">
+                </div>
+
+                <div class="col-6">
+                    <label class="form-label"><b>State : </b></label>
+                    <input class="form-control" type="text" formControlName="state" placeholder="Enter State">
+                </div>
+
+                <div class="col-6">
+                    <label class="form-label"><b>Password : </b></label>
+                    <input class="form-control" type="password" formControlName="password" placeholder="Choose Password">
+                </div>
+
+                <div class="col-6">
+                    <label class="form-label"><b>Confirm Password : </b></label>
+                    <input class="form-control" type="password" formControlName="confirmPassword" placeholder="Confirm Password">
+                </div>
+
+                <div class="col-12 p-2 text-center">
+                    <button type="reset" class="btn btn-warning">Reset Form</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button type="submit" class="btn btn-success"  [disabled]="registrationForm.invalid" >Submit Form</button>
+                </div>
+
+                
+
+            </form>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,11 @@
+.bi1{
+    /* background-image: url(/src/images/Anat.jpg); */
+    background-size: cover; /* Ensure the image covers the entire div */
+  background-position: center; /* Center the image */
+  height: 500px; /* Set the height of the div */
+  color: white; /* Set text color to white so it's readable on the background */
+  text-align: center; /* Center the text inside the div */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
